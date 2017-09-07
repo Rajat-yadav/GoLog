@@ -3,7 +3,7 @@
 
 // Include Files
 #ifndef _DLL_H
-	#include "defines/Dll.h"
+	#include "defines/dll.h"
 #endif
 #ifndef _VECTOR_
 	#include <vector>
@@ -56,34 +56,34 @@ struct IniData
 	double f_value;
 	bool b_value;
 
-	std::tstring toString();
+	std::tstring ToString();
 };
 
 class IniReader
 {
 public:
 	CALL IniReader();
-	CALL IniReader(const tchar* fileName);
+	CALL IniReader(const tchar * file_name);
 	CALL ~IniReader();
 
-	CALL bool initialize();
-	CALL bool shutDown();
+	CALL bool Initialize();
+	CALL bool ShutDown();
 
-	CALL bool loadFile(const std::tstring& fileName);
+	CALL bool LoadFile(const std::tstring & file_name);
 
-	CALL std::tstring getString(const std::tstring& sectionName, const std::tstring& keyName);
-	CALL signed long long int getInt64(const std::tstring& sectionName, const std::tstring& keyName);
-	CALL int getInt(const std::tstring& sectionName, const std::tstring& keyName);
-	CALL double getDouble(const std::tstring& sectionName, const std::tstring& keyName);
-	CALL bool getBool(const std::tstring& sectionName, const std::tstring& keyName);
+	CALL std::tstring GetString(const std::tstring & section_name, const std::tstring & key_name);
+	CALL signed long long int GetInt64(const std::tstring & section_name, const std::tstring & key_name);
+	CALL int GetInt(const std::tstring & section_name, const std::tstring & key_name);
+	CALL double GetDouble(const std::tstring & section_name, const std::tstring & key_name);
+	CALL bool GetBool(const std::tstring & section_name, const std::tstring & key_name);
 
-	CALL bool deleteLastReadedData();
+	CALL bool DeleteLastReadData();
 
-	CALL void writeAllInformation(const std::tstring& fileExtension);
+	CALL void WriteAllReadInformation(const std::tstring & file_extension);
 
 	CALL IniReader& operator =(tchar* value);
 private:
-	CALL std::tstring getRootPath();
+	CALL std::tstring GetRootPath();
 
 	CALL IniReader(const IniReader&);
 	IniReader& operator=(IniReader const&);
@@ -93,7 +93,7 @@ private:
 
 	std::tstring root_path;
 
-	friend bool CALL operator==(IniReader& left, const tchar* _Right);
+	friend bool CALL operator==(IniReader& left, const tchar* right);
 };
 
 #endif //_INIREADER_H

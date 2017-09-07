@@ -7,7 +7,7 @@ template <class T>
 class Singleton
 {
 public:
-	static bool createInstance()
+	static bool CreateInstance()
 	{
 		if (Singleton::instance != nullptr)
 			return false;
@@ -15,7 +15,7 @@ public:
 		Singleton::instance = new T;
 		return true;
 	}
-	static void destroyInstance()
+	static void DestroyInstance()
 	{
 		if (Singleton::instance)
 		{
@@ -24,13 +24,13 @@ public:
 		}
 	}
 
-	static T& getInstance()
+	static T& GetInstance()
 	{
 		assert(Singleton::instance != nullptr);
 		return *(Singleton::instance);
 	}
 
-	static bool hasInstance()
+	static bool HasInstance()
 	{
 		return instance != nullptr;
 	}

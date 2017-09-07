@@ -1,6 +1,6 @@
 #define _BUILD_
 
-#include "Logger\ELog\ELog.h"
+#include "logger\elog\elog.h"
 
 //Include Files
 #include "defines\iostream.h"
@@ -23,41 +23,41 @@ ELog::~ELog()
 
 }
 
-bool ELog::initialize()
+bool ELog::Initialize()
 {
-	if (!this->log_settings.initialize("ELog"))
+	if (!this->log_settings.Initialize("ELog"))
 		return false;
 	return true;
 }
 
-bool ELog::shutDown()
+bool ELog::ShutDown()
 {
 	this->log_messages.clear();
 	return true;
 }
 
-void ELog::log(const std::tstring & logCode, const std::tstring & logErrorCompenent, const std::tstring & logScopeName, const std::tstring & logMessage, LogType logType, const std::tstring & logFileName, int lineNum)
+void ELog::Log(const std::tstring & log_code, const std::tstring & log_error_compenent, const std::tstring & log_scope_name, const std::tstring & log_message, LogType log_type, const std::tstring & log_file_name, int line_num)
 {
 	std::tsstream buffer;
 	std::tsstream message_buffer;
 
-	switch (logType)
+	switch (log_type)
 	{
 	case LogType::INVALID_LOG:
 
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.getInvalidLogColour());
-		message_buffer << _T("[  ") << logCode.c_str() << _T("] ") << logErrorCompenent.c_str();
-		message_buffer << SPACE << this->log_settings.getInvalidTypeTrigger().c_str() << SPACE;
-		message_buffer << logFileName.c_str() << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << logScopeName.c_str() << this->log_settings.getSperatorSymbol().c_str() << lineNum << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << SPACE << logMessage.c_str() << std::endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.GetInvalidLogColour());
+		message_buffer << _T("[  ") << log_code.c_str() << _T("] ") << log_error_compenent.c_str();
+		message_buffer << SPACE << this->log_settings.GetInvalidTypeTrigger().c_str() << SPACE;
+		message_buffer << log_file_name.c_str() << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << log_scope_name.c_str() << this->log_settings.GetSperatorSymbol().c_str() << line_num << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << SPACE << log_message.c_str() << std::endl;
 
-		buffer << _T("[  ") << logCode.c_str() << _T("] ");
-		buffer << this->log_settings.getInvalidTypeTrigger().c_str();
-		buffer << _T("\n") << logMessage.c_str();
-		buffer << _T("\nFound in Scope: ") << logScopeName.c_str();
-		buffer << _T("\nFound in File: ") << logFileName.c_str();
-		buffer << _T("\nFound at Line: ") << lineNum;
+		buffer << _T("[  ") << log_code.c_str() << _T("] ");
+		buffer << this->log_settings.GetInvalidTypeTrigger().c_str();
+		buffer << _T("\n") << log_message.c_str();
+		buffer << _T("\nFound in Scope: ") << log_scope_name.c_str();
+		buffer << _T("\nFound in File: ") << log_file_name.c_str();
+		buffer << _T("\nFound at Line: ") << line_num;
 
 		this->log_messages.push_back(LogData(LogType::INVALID_LOG, buffer.str()));
 
@@ -67,19 +67,19 @@ void ELog::log(const std::tstring & logCode, const std::tstring & logErrorCompen
 		break;
 	case LogType::ERROR_LOG:
 
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.getErrorLogColour());
-		message_buffer << _T("[  ") << logCode.c_str() << _T("] ") << logErrorCompenent.c_str();
-		message_buffer << SPACE << this->log_settings.getErrorTypeTrigger().c_str() << SPACE;
-		message_buffer << logFileName.c_str() << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << logScopeName.c_str() << this->log_settings.getSperatorSymbol().c_str() << lineNum << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << SPACE << logMessage.c_str() << std::endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.GetErrorLogColour());
+		message_buffer << _T("[  ") << log_code.c_str() << _T("] ") << log_error_compenent.c_str();
+		message_buffer << SPACE << this->log_settings.GetErrorTypeTrigger().c_str() << SPACE;
+		message_buffer << log_file_name.c_str() << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << log_scope_name.c_str() << this->log_settings.GetSperatorSymbol().c_str() << line_num << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << SPACE << log_message.c_str() << std::endl;
 
-		buffer << _T("[  ") << logCode.c_str() << _T("] ");
-		buffer << this->log_settings.getErrorTypeTrigger().c_str();
-		buffer << _T("\n") << logMessage.c_str();
-		buffer << _T("\nFound in Scope: ") << logScopeName.c_str();
-		buffer << _T("\nFound in File: ") << logFileName.c_str();
-		buffer << _T("\nFound at Line: ") << lineNum;
+		buffer << _T("[  ") << log_code.c_str() << _T("] ");
+		buffer << this->log_settings.GetErrorTypeTrigger().c_str();
+		buffer << _T("\n") << log_message.c_str();
+		buffer << _T("\nFound in Scope: ") << log_scope_name.c_str();
+		buffer << _T("\nFound in File: ") << log_file_name.c_str();
+		buffer << _T("\nFound at Line: ") << line_num;
 
 		this->log_messages.push_back(LogData(LogType::ERROR_LOG, buffer.str()));
 
@@ -89,19 +89,19 @@ void ELog::log(const std::tstring & logCode, const std::tstring & logErrorCompen
 		break;
 	case LogType::CRITICAL_LOG:
 
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.getCriticalLogColour());
-		message_buffer << _T("[  ") << logCode.c_str() << _T("] ") << logErrorCompenent.c_str();
-		message_buffer << SPACE << this->log_settings.getCriticalTypeTrigger().c_str() << SPACE;
-		message_buffer << logFileName.c_str() << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << logScopeName.c_str() << this->log_settings.getSperatorSymbol().c_str() << lineNum << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << SPACE << logMessage.c_str() << std::endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.GetCriticalLogColour());
+		message_buffer << _T("[  ") << log_code.c_str() << _T("] ") << log_error_compenent.c_str();
+		message_buffer << SPACE << this->log_settings.GetCriticalTypeTrigger().c_str() << SPACE;
+		message_buffer << log_file_name.c_str() << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << log_scope_name.c_str() << this->log_settings.GetSperatorSymbol().c_str() << line_num << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << SPACE << log_message.c_str() << std::endl;
 
-		buffer << _T("[  ") << logCode.c_str() << _T("] ");
-		buffer << this->log_settings.getCriticalTypeTrigger().c_str();
-		buffer << _T("\n") << logMessage.c_str();
-		buffer << _T("\nFound in Scope: ") << logScopeName.c_str();
-		buffer << _T("\nFound in File: ") << logFileName.c_str();
-		buffer << _T("\nFound at Line: ") << lineNum;
+		buffer << _T("[  ") << log_code.c_str() << _T("] ");
+		buffer << this->log_settings.GetCriticalTypeTrigger().c_str();
+		buffer << _T("\n") << log_message.c_str();
+		buffer << _T("\nFound in Scope: ") << log_scope_name.c_str();
+		buffer << _T("\nFound in File: ") << log_file_name.c_str();
+		buffer << _T("\nFound at Line: ") << line_num;
 
 		this->log_messages.push_back(LogData(LogType::CRITICAL_LOG, buffer.str()));
 
@@ -111,19 +111,19 @@ void ELog::log(const std::tstring & logCode, const std::tstring & logErrorCompen
 		break;
 	case LogType::TODO_LOG:
 
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.getTodoLogColour());
-		message_buffer << _T("[  ") << logCode.c_str() << _T("] ") << logErrorCompenent.c_str();
-		message_buffer << SPACE << this->log_settings.getTodoTypeTrigger().c_str() << SPACE;
-		message_buffer << logFileName.c_str() << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << logScopeName.c_str() << this->log_settings.getSperatorSymbol().c_str() << lineNum << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << SPACE << logMessage.c_str() << std::endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.GetTodoLogColour());
+		message_buffer << _T("[  ") << log_code.c_str() << _T("] ") << log_error_compenent.c_str();
+		message_buffer << SPACE << this->log_settings.GetTodoTypeTrigger().c_str() << SPACE;
+		message_buffer << log_file_name.c_str() << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << log_scope_name.c_str() << this->log_settings.GetSperatorSymbol().c_str() << line_num << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << SPACE << log_message.c_str() << std::endl;
 
-		buffer << _T("[  ") << logCode.c_str() << _T("] ");
-		buffer << this->log_settings.getTodoTypeTrigger().c_str();
-		buffer << _T("\n") << logMessage.c_str();
-		buffer << _T("\nFound in Scope: ") << logScopeName.c_str();
-		buffer << _T("\nFound in File: ") << logFileName.c_str();
-		buffer << _T("\nFound at Line: ") << lineNum;
+		buffer << _T("[  ") << log_code.c_str() << _T("] ");
+		buffer << this->log_settings.GetTodoTypeTrigger().c_str();
+		buffer << _T("\n") << log_message.c_str();
+		buffer << _T("\nFound in Scope: ") << log_scope_name.c_str();
+		buffer << _T("\nFound in File: ") << log_file_name.c_str();
+		buffer << _T("\nFound at Line: ") << line_num;
 
 		this->log_messages.push_back(LogData(LogType::TODO_LOG, buffer.str()));
 
@@ -133,19 +133,19 @@ void ELog::log(const std::tstring & logCode, const std::tstring & logErrorCompen
 		break;
 	case LogType::INFO_LOG:
 
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.getInfoLogColour());
-		message_buffer << _T("[  ") << logCode.c_str() << _T("] ") << logErrorCompenent.c_str();
-		message_buffer << SPACE << this->log_settings.getInfoTypeTrigger().c_str() << SPACE;
-		message_buffer << logFileName.c_str() << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << logScopeName.c_str() << this->log_settings.getSperatorSymbol().c_str() << lineNum << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << SPACE << logMessage.c_str() << std::endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.GetInfoLogColour());
+		message_buffer << _T("[  ") << log_code.c_str() << _T("] ") << log_error_compenent.c_str();
+		message_buffer << SPACE << this->log_settings.GetInfoTypeTrigger().c_str() << SPACE;
+		message_buffer << log_file_name.c_str() << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << log_scope_name.c_str() << this->log_settings.GetSperatorSymbol().c_str() << line_num << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << SPACE << log_message.c_str() << std::endl;
 
-		buffer << _T("[  ") << logCode.c_str() << _T("] ");
-		buffer << this->log_settings.getInfoTypeTrigger().c_str();
-		buffer << _T("\n") << logMessage.c_str();
-		buffer << _T("\nFound in Scope: ") << logScopeName.c_str();
-		buffer << _T("\nFound in File: ") << logFileName.c_str();
-		buffer << _T("\nFound at Line: ") << lineNum;
+		buffer << _T("[  ") << log_code.c_str() << _T("] ");
+		buffer << this->log_settings.GetInfoTypeTrigger().c_str();
+		buffer << _T("\n") << log_message.c_str();
+		buffer << _T("\nFound in Scope: ") << log_scope_name.c_str();
+		buffer << _T("\nFound in File: ") << log_file_name.c_str();
+		buffer << _T("\nFound at Line: ") << line_num;
 
 		this->log_messages.push_back(LogData(LogType::INFO_LOG, buffer.str()));
 
@@ -155,19 +155,19 @@ void ELog::log(const std::tstring & logCode, const std::tstring & logErrorCompen
 		break;
 	case LogType::WARNING_LOG:
 
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.getWarningLogColour());
-		message_buffer << _T("[  ") << logCode.c_str() << _T("] ") << logErrorCompenent.c_str();
-		message_buffer << SPACE << this->log_settings.getWarningTypeTrigger().c_str() << SPACE;
-		message_buffer << logFileName.c_str() << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << logScopeName.c_str() << this->log_settings.getSperatorSymbol().c_str() << lineNum << this->log_settings.getSperatorSymbol().c_str();
-		message_buffer << SPACE << logMessage.c_str() << std::endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), this->log_settings.GetWarningLogColour());
+		message_buffer << _T("[  ") << log_code.c_str() << _T("] ") << log_error_compenent.c_str();
+		message_buffer << SPACE << this->log_settings.GetWarningTypeTrigger().c_str() << SPACE;
+		message_buffer << log_file_name.c_str() << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << log_scope_name.c_str() << this->log_settings.GetSperatorSymbol().c_str() << line_num << this->log_settings.GetSperatorSymbol().c_str();
+		message_buffer << SPACE << log_message.c_str() << std::endl;
 
-		buffer << _T("[  ") << logCode.c_str() << _T("] ");
-		buffer << this->log_settings.getWarningTypeTrigger().c_str();
-		buffer << _T("\n") << logMessage.c_str();
-		buffer << _T("\nFound in Scope: ") << logScopeName.c_str();
-		buffer << _T("\nFound in File: ") << logFileName.c_str();
-		buffer << _T("\nFound at Line: ") << lineNum;
+		buffer << _T("[  ") << log_code.c_str() << _T("] ");
+		buffer << this->log_settings.GetWarningTypeTrigger().c_str();
+		buffer << _T("\n") << log_message.c_str();
+		buffer << _T("\nFound in Scope: ") << log_scope_name.c_str();
+		buffer << _T("\nFound in File: ") << log_file_name.c_str();
+		buffer << _T("\nFound at Line: ") << line_num;
 
 		this->log_messages.push_back(LogData(LogType::WARNING_LOG, buffer.str()));
 
@@ -184,17 +184,12 @@ void ELog::log(const std::tstring & logCode, const std::tstring & logErrorCompen
 	buffer.str("");
 }
 
-void ELog::log(const std::tstring & logErrorCompenent, const std::tstring & logScopeName, const std::tstring & logMessage, LogType logType, const std::tstring & logFileName, int lineNum)
-{
-	return void();
-}
-
-bool ELog::writeLogsToFile(const std::tstring & fileName)
+bool ELog::WriteLogsToFile(const std::tstring & file_name)
 {
 	std::tsstream buffer;
 	std::tofstream file;
 
-	buffer << this->log_settings.getRootPath() << fileName << _T("\0");
+	buffer << this->log_settings.GetRootPath() << file_name << _T("\0");
 	file.open(buffer.str().c_str(), std::ios::out | std::ios::in | std::ios::trunc);
 	if (!file.is_open())
 		return false;

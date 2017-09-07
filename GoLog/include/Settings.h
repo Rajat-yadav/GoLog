@@ -2,13 +2,13 @@
 #define _SETTINGS_H
 
 #ifndef _DLL_H
-	#include "defines/Dll.h"
+	#include "defines/dll.h"
 #endif 
 #ifndef _STRING_H
 	#include "defines/string.h"
 #endif 
 #ifndef _INIREADER_H
-	#include "IniReader/IniReader.h"
+	#include "ini_reader/ini_reader.h"
 #endif
 
 class Settings
@@ -17,30 +17,28 @@ public:
 	CALL Settings();
 	CALL ~Settings();
 
-	CALL bool initialize(const std::tstring& logClassName);
-	CALL bool shutDown();
+	CALL bool Initialize(const std::tstring & log_class_name);
+	CALL bool ShutDown();
 
-	CALL int getCriticalLogColour() const;
-	CALL int getErrorLogColour() const ;
-	CALL int getInfoLogColour() const;
-	CALL int getTodoLogColour() const;
-	CALL int getInvalidLogColour() const;
-	CALL int getWarningLogColour() const;
+	CALL int GetCriticalLogColour() const;
+	CALL int GetErrorLogColour() const ;
+	CALL int GetInfoLogColour() const;
+	CALL int GetTodoLogColour() const;
+	CALL int GetInvalidLogColour() const;
+	CALL int GetWarningLogColour() const;
 
-	CALL int setIniPath(const std::tstring& iniPath);
+	CALL std::tstring GetRootPath();
 
-	CALL std::tstring getRootPath();
+	CALL std::tstring GetErrorTypeTrigger() const;
+	CALL std::tstring GetCriticalTypeTrigger() const;
+	CALL std::tstring GetTodoTypeTrigger() const;
+	CALL std::tstring GetInvalidTypeTrigger() const;
+	CALL std::tstring GetWarningTypeTrigger() const;
+	CALL std::tstring GetInfoTypeTrigger() const;
 
-	CALL std::tstring getErrorTypeTrigger() const;
-	CALL std::tstring getCriticalTypeTrigger() const;
-	CALL std::tstring getTodoTypeTrigger() const;
-	CALL std::tstring getInvalidTypeTrigger() const;
-	CALL std::tstring getWarningTypeTrigger() const;
-	CALL std::tstring getInfoTypeTrigger() const;
-
-	CALL std::tstring getSperatorSymbol() const;
+	CALL std::tstring GetSperatorSymbol() const;
 private:
-	CALL bool praseSettingsFile(const std::tstring& logClassName);
+	CALL bool PraseSettingsFile(const std::tstring & log_class_name);
 
 	int critical_log_colour;
 	int error_log_colour;
@@ -49,7 +47,7 @@ private:
 	int invalid_log_colour;
 	int warning_log_colour;
 
-	IniReader ini;
+	IniReader settings_ini;
 
 	std::tstring error_type_trigger;
 	std::tstring critical_type_trigger;

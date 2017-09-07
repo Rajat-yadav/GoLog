@@ -1,6 +1,6 @@
 #define _BUILD_
 
-#include "IniReader/IniReader.h"
+#include "ini_reader/ini_reader.h"
 #include <Windows.h>
 #include "defines/stringstream.h"
 #include <assert.h>
@@ -13,9 +13,9 @@ IniReader::IniReader()
 	
 }
 
-IniReader::IniReader(const tchar* fileName)
+IniReader::IniReader(const tchar * file_name)
 {
-	this->ini_data.file_name = fileName;
+	this->ini_data.file_name = file_name;
 	this->ini_file.open(data.file_name, std::ios::out | std::ios::in);
 }
 
@@ -25,35 +25,35 @@ IniReader::~IniReader()
 	this->ini_file.close();
 }
 
-bool IniReader::initialize()
+bool IniReader::Initialize()
 {
 	return true;
 }
 
-bool IniReader::shutDown()
+bool IniReader::ShutDown()
 {
 	this->ini_data_holder.clear();
 	return true;
 }
 
-bool IniReader::loadFile(const std::tstring& fileName)
+bool IniReader::LoadFile(const std::tstring & file_name)
 {
 	if (this->ini_file.is_open())
 	{
 		this->ini_file.close(), this->ini_file.clear();
 	}
-	this->ini_file.open(fileName.c_str(), std::ios::in | std::ios::out);
+	this->ini_file.open(file_name.c_str(), std::ios::in | std::ios::out);
 	if (!this->ini_file.is_open())
 	{
 		OutputDebugString(_T("Couldn't open the input File\n"));
 		return false;
 	}
-	this->ini_data.file_name = fileName;
+	this->ini_data.file_name = file_name;
 
 	return true;
 }
 
-std::tstring IniReader::getString(const std::tstring& sectionName, const std::tstring& keyName)
+std::tstring IniReader::GetString(const std::tstring & section_name, const std::tstring & key_name)
 {
 	if (!this->ini_file.is_open()) { OutputDebugString(_T("Couldn't Able to Open IniReader file")); return NULLSTR; }
 
@@ -64,7 +64,7 @@ std::tstring IniReader::getString(const std::tstring& sectionName, const std::ts
 	std::tstring key;
 	std::tstring value;
 
-	buffer << OPENBRACE << sectionName.c_str() << CLOSEBRACE;
+	buffer << OPENBRACE << section_name.c_str() << CLOSEBRACE;
 
 	while (std::getline(this->ini_file, section))
 	{
@@ -74,7 +74,7 @@ std::tstring IniReader::getString(const std::tstring& sectionName, const std::ts
 			{
 				key = key_value.substr(0, key_value.find_first_of(OPERATOR));
 				value = key_value.substr(key_value.find_first_of(OPERATOR) + 1);
-				if (key == keyName) 
+				if (key == key_name) 
 				{ 
 					std::tsstream bufferd; bufferd << value.c_str();
 					this->ini_data_holder.push_back(IniData(buffer.str().c_str(),key.c_str(),bufferd.str(),ReaderDataType::STR_DATA_TYPE, this->ini_data.file_name.c_str()));
@@ -87,7 +87,7 @@ std::tstring IniReader::getString(const std::tstring& sectionName, const std::ts
 	return value;
 }
 
-signed long long int IniReader::getInt64(const std::tstring& sectionName, const std::tstring& keyName)
+signed long long int IniReader::GetInt64(const std::tstring & section_name, const std::tstring & key_name)
 {
 	if (!this->ini_file.is_open()) { OutputDebugString(_T("Couldn't Able to Open IniReader file")); return 0; }
 
@@ -98,7 +98,7 @@ signed long long int IniReader::getInt64(const std::tstring& sectionName, const 
 	std::tstring key;
 	std::tstring value;
 
-	buffer << OPENBRACE << sectionName.c_str() << CLOSEBRACE;
+	buffer << OPENBRACE << section_name.c_str() << CLOSEBRACE;
 
 	while (std::getline(this->ini_file, section))
 	{
@@ -108,7 +108,7 @@ signed long long int IniReader::getInt64(const std::tstring& sectionName, const 
 			{
 				key = key_value.substr(0, key_value.find_first_of(OPERATOR));
 				value = key_value.substr(key_value.find_first_of(OPERATOR) + 1);
-				if (key == keyName)
+				if (key == key_name)
 				{
 					this->ini_data_holder.push_back(IniData(buffer.str().c_str(), key.c_str(), _tstoi64(value.c_str()), ReaderDataType::INT64_DATA_TYPE, this->ini_data.file_name.c_str()));
 					SELFOBJECT->ini_file.seekg(0); buffer.clear(); return _tstoi64(value.c_str());
@@ -120,7 +120,7 @@ signed long long int IniReader::getInt64(const std::tstring& sectionName, const 
 	return _tstoi64(value.c_str());
 }
 
-int IniReader::getInt(const std::tstring& sectionName, const std::tstring& keyName)
+int IniReader::GetInt(const std::tstring & section_name, const std::tstring & key_name)
 {
 	if (!this->ini_file.is_open()) { OutputDebugString(_T("Couldn't Able to Open IniReader file")); return 0; }
 
@@ -131,7 +131,7 @@ int IniReader::getInt(const std::tstring& sectionName, const std::tstring& keyNa
 	std::tstring key;
 	std::tstring value;
 
-	buffer << OPENBRACE << sectionName.c_str() << CLOSEBRACE;
+	buffer << OPENBRACE << section_name.c_str() << CLOSEBRACE;
 
 	while (std::getline(this->ini_file, section))
 	{
@@ -141,7 +141,7 @@ int IniReader::getInt(const std::tstring& sectionName, const std::tstring& keyNa
 			{
 				key = key_value.substr(0, key_value.find_first_of(OPERATOR));
 				value = key_value.substr(key_value.find_first_of(OPERATOR) + 1);
-				if (key == keyName)
+				if (key == key_name)
 				{
 					this->ini_data_holder.push_back(IniData(buffer.str().c_str(), key.c_str(), _tstoi(value.c_str()),ReaderDataType::INT_DATA_TYPE, this->ini_data.file_name.c_str()));
 					SELFOBJECT->ini_file.seekg(0); buffer.clear(); return _tstoi(value.c_str());
@@ -153,7 +153,7 @@ int IniReader::getInt(const std::tstring& sectionName, const std::tstring& keyNa
 	return _tstoi(value.c_str());
 }
 
-double IniReader::getDouble(const std::tstring& sectionName, const std::tstring& keyName)
+double IniReader::GetDouble(const std::tstring & section_name, const std::tstring & key_name)
 {
 	if (!this->ini_file.is_open()) { OutputDebugString(_T("Couldn't Able to Open IniReader file")); return 0; }
 
@@ -164,7 +164,7 @@ double IniReader::getDouble(const std::tstring& sectionName, const std::tstring&
 	std::tstring key;
 	std::tstring value;
 
-	buffer << OPENBRACE << sectionName.c_str() << CLOSEBRACE;
+	buffer << OPENBRACE << section_name.c_str() << CLOSEBRACE;
 
 	while (std::getline(this->ini_file, section))
 	{
@@ -174,7 +174,7 @@ double IniReader::getDouble(const std::tstring& sectionName, const std::tstring&
 			{
 				key = key_value.substr(0, key_value.find_first_of(OPERATOR));
 				value = key_value.substr(key_value.find_first_of(OPERATOR) + 1);
-				if (key == keyName)
+				if (key == key_name)
 				{
 					this->ini_data_holder.push_back(IniData(buffer.str().c_str(), key.c_str(), _tstof(value.c_str()),ReaderDataType::DOUBLE_DATA_TYPE,this->ini_data.file_name.c_str()));
 					SELFOBJECT->ini_file.seekg(0); buffer.clear(); return _tstof(value.c_str());
@@ -187,7 +187,7 @@ double IniReader::getDouble(const std::tstring& sectionName, const std::tstring&
 }
 
 
-bool IniReader::getBool(const std::tstring& sectionName, const std::tstring& keyName)
+bool IniReader::GetBool(const std::tstring & section_name, const std::tstring & key_name)
 {
 	if (!this->ini_file.is_open()) { OutputDebugString(_T("Couldn't Able to Open IniReader file")); return 0; }
 
@@ -198,7 +198,7 @@ bool IniReader::getBool(const std::tstring& sectionName, const std::tstring& key
 	std::tstring key;
 	std::tstring value;
 
-	buffer << OPENBRACE << sectionName.c_str() << CLOSEBRACE;
+	buffer << OPENBRACE << section_name.c_str() << CLOSEBRACE;
 
 	while (std::getline(this->ini_file, section))
 	{
@@ -208,7 +208,7 @@ bool IniReader::getBool(const std::tstring& sectionName, const std::tstring& key
 			{
 				key = key_value.substr(0, key_value.find_first_of(OPERATOR));
 				value = key_value.substr(key_value.find_first_of(OPERATOR) + 1);
-				if (key == keyName)
+				if (key == key_name)
 				{
 					if (value == _T("true"))
 					{
@@ -234,7 +234,7 @@ bool IniReader::getBool(const std::tstring& sectionName, const std::tstring& key
 	return 0;
 }
 
-bool IniReader::deleteLastReadedData()
+bool IniReader::DeleteLastReadData()
 {
 	if (!this->ini_data_holder.size())
 		return false;
@@ -242,7 +242,7 @@ bool IniReader::deleteLastReadedData()
 	return true;
 }
 
-void IniReader::writeAllInformation(const std::tstring& fileExtension)
+void IniReader::WriteAllReadInformation(const std::tstring & file_extension)
 {
 	int current_write = 0;
 	std::tsstream buffer;
@@ -250,7 +250,7 @@ void IniReader::writeAllInformation(const std::tstring& fileExtension)
 
 	std::tfstream file;
 
-	buffer << getRootPath().c_str() << _T("IniReaderLogs") << _T('.') << fileExtension.c_str() << _T("\0");
+	buffer << GetRootPath().c_str() << _T("IniReaderLogs") << _T('.') << file_extension.c_str() << _T("\0");
 	file.open(buffer.str().c_str(), std::ios::out | std::ios::in | std::ios::trunc);
 
 	buffer2 << _T("(c)2017 The GoLog Project. \n");
@@ -260,7 +260,7 @@ void IniReader::writeAllInformation(const std::tstring& fileExtension)
 	for (IniData& ini_data : this->ini_data_holder)
 	{
 		file << _T("Read Call Number: ") << current_write << std::endl;
-		file << ini_data.toString() << std::endl << std::endl;
+		file << ini_data.ToString() << std::endl << std::endl;
 		++current_write;
 	}
 	buffer.clear();
@@ -276,9 +276,9 @@ IniReader& IniReader::operator=(tchar * value)
 	return *(this);
 }
 
-std::tstring IniReader::getRootPath() 
+std::tstring IniReader::GetRootPath() 
 {
-	this->root_path = getString(_T("config"), _T("RootPath"));
+	this->root_path = GetString(_T("config"), _T("RootPath"));
 	this->ini_data_holder.pop_back();
 	if (root_path == NULLSTR)
 		return NULLSTR;
@@ -291,7 +291,7 @@ inline bool operator==(IniReader& left,const tchar* right)
 	else return false;
 }
 
-std::tstring IniData::toString()
+std::tstring IniData::ToString()
 {
 	std::tsstream buffer;
 

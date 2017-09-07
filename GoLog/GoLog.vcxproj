@@ -19,23 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\defines\Dll.h" />
+    <ClInclude Include="include\defines\dll.h" />
     <ClInclude Include="include\defines\fstream.h" />
-    <ClInclude Include="include\IniReader\IniReader.h" />
+    <ClInclude Include="include\ini_reader\ini_reader.h" />
     <ClInclude Include="include\defines\iostream.h" />
-    <ClInclude Include="include\LogData.h" />
-    <ClInclude Include="include\Logger\ELog\ELog.h" />
-    <ClInclude Include="include\Logger\Logger.h" />
-    <ClInclude Include="include\Logtype.h" />
-    <ClInclude Include="include\Settings.h" />
-    <ClInclude Include="include\helpers\Singleton.h" />
+    <ClInclude Include="include\log_data.h" />
+    <ClInclude Include="include\logger\elog\elog.h" />
+    <ClInclude Include="include\logger\logger.h" />
+    <ClInclude Include="include\log_type.h" />
+    <ClInclude Include="include\settings.h" />
+    <ClInclude Include="include\helpers\singleton.h" />
     <ClInclude Include="include\defines\string.h" />
     <ClInclude Include="include\defines\stringstream.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ELog\ELog.cpp" />
-    <ClCompile Include="src\IniReader\IniReader.cpp" />
-    <ClCompile Include="src\Settings.cpp" />
+    <ClCompile Include="src\elog\elog.cpp" />
+    <ClCompile Include="src\ini_reader\ini_reader.cpp" />
+    <ClCompile Include="src\settings.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

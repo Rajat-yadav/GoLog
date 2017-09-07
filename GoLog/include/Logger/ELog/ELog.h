@@ -1,25 +1,25 @@
 #ifndef _ELOG_H
 #define _ELOG_H
 
-#include "Logger\Logger.h"
+#include "logger\logger.h"
 
 #ifndef _DLL_H
-	#include "defines\Dll.h"
+	#include "defines\dll.h"
 #endif
 #ifndef _STRING_H
 	#include "defines\string.h"
 #endif 
 #ifndef _SETTINGS_H
-	#include "Settings.h"
+	#include "settings.h"
 #endif
 #ifndef _LOGTYPE_H
-	#include "Logtype.h"
+	#include "log_type.h"
 #endif 
 #ifndef _LOGDATA_H
-	#include "LogData.h"
+	#include "log_data.h"
 #endif 
 #ifndef _VECTOR_
-#include <vector>
+	#include <vector>
 #endif 
 
 
@@ -28,12 +28,11 @@ class ELog : public Logger
 public:
     CALL ELog();
 	CALL ~ELog();
-	CALL bool initialize();
-	CALL bool shutDown();
+	CALL bool Initialize();
+	CALL bool ShutDown();
 
-	CALL void log(const std::tstring& logCode, const std::tstring& logErrorCompenent, const std::tstring& logScopeName, const std::tstring& logMessage, LogType logType, const std::tstring& logFileName, int lineNum);
-	CALL void log(const std::tstring& logErrorCompenent, const std::tstring& logScopeName, const std::tstring& logMessage, LogType logType, const std::tstring& logFileName, int lineNum);
-	CALL bool writeLogsToFile(const std::tstring& fileName);
+	CALL void Log(const std::tstring & log_code, const std::tstring & log_error_compenent, const std::tstring & log_scope_name, const std::tstring & log_message, LogType log_type, const std::tstring & log_file_name, int line_num);
+	CALL bool WriteLogsToFile(const std::tstring & file_name);
 private:
 	std::vector<LogData> log_messages;
 	Settings log_settings;

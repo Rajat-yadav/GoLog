@@ -5,12 +5,12 @@
 	#include "defines/string.h"
 #endif 
 #ifndef _LOGTYPE_H
-	#include "Logtype.h"
+	#include "log_type.h"
 #endif 
 
 struct LogData
 {
-    LogData(LogType logType,const std::tstring& message) :current_log_type(logType),log_message(message) {}
+    LogData(LogType log_type,const std::tstring& message) :current_log_type(log_type),log_message(message) {}
 
 	LogType current_log_type;
 	std::tstring log_message;
